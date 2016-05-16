@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 
 import RatingsData from './RatingsData';
 
