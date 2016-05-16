@@ -1,4 +1,5 @@
-import React, { Alert, Linking } from 'react-native';
+import React from 'react';
+import { Alert, Linking } from 'react-native';
 
 import RatingsData from './RatingsData';
 
@@ -6,6 +7,7 @@ const _config = {
 	title: 'Rate Me',
 	message: 'We hope you\'re loving our app. If you are, would you mind taking a quick moment to leave us a positive review?',
 	appStoreId: null,
+	marketId: null,
 	actionLabels: {
 		decline: 'No thanks',
 		delay: 'Not right now',
@@ -43,7 +45,7 @@ export default class RatingRequestor {
 	 * 									timingFunction: {func}
 	 * 								}
 	 */
-	constructor(appStoreId, options) {
+	constructor(options) {
 		// Check for required options
 		if (!appStoreId) {
 			throw 'You must specify your app\'s store ID on construction to use the Rating Requestor.';
@@ -51,7 +53,6 @@ export default class RatingRequestor {
 
 		// Merge defaults with user-supplied config
 		Object.assign(_config, options);
-		_config.appStoreId = appStoreId;
 	}
 
 	/**
@@ -60,6 +61,11 @@ export default class RatingRequestor {
 	 * @param {function(didAppear: boolean, result: string)} callback Optional. Callback that reports whats the result was.
 	 */
 	showRatingPopup(callback = () => {}) {
+
+		let storeUrl = Platform.OS === 'ios' ?
+			'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=' + _config.appStoreId + '&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8' :
+			'market://details?id=' + _config.marketId;
+
 		Alert.alert(
 			_config.title,
 			_config.message,
@@ -69,7 +75,7 @@ export default class RatingRequestor {
 				{ text: _config.actionLabels.accept, onPress: () => {
 					RatingsData.recordRated();
 					callback(true, 'accept');
-					Linking.openURL('http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=' + _config.appStoreId + '&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8');
+					Linking.openURL(storeUrl);
 				}, style: 'default' }
 			]
 		);

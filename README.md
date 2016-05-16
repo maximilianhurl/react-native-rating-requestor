@@ -2,7 +2,7 @@
 
 A React Native component to prompt users for a rating after positive interactions
 
-The Rating Requestor is a very simple JS module that you simply instantiate and call from time to time, as your user performs actions that result in a "happy path." For example, maybe your users get a smile on their face every time they save money with your app, beat a level, or clear out their inbox. After a certain number of these positive events, it might be a good time to ask the user for a review. 
+The Rating Requestor is a very simple JS module that you simply instantiate and call from time to time, as your user performs actions that result in a "happy path." For example, maybe your users get a smile on their face every time they save money with your app, beat a level, or clear out their inbox. After a certain number of these positive events, it might be a good time to ask the user for a review.
 
 ## Installation
 
@@ -14,7 +14,10 @@ Import and create a new instantiation of the Rating Requestor somewhere in the m
 
 ````javascript
     import RatingRequestor from 'react-native-rating-requestor';
-    let RatingTracker = new RatingRequestor('[your apps store ID]');
+    let RatingTracker = new RatingRequestor({
+        appStoreId 'YOUR IOS APP STORE ID',
+        marketId: 'YOUR ANDROID MARKET ID',
+    });
 
     let MyApp = React.createClass({ ... });
 ````
@@ -39,7 +42,7 @@ The example above is used without callback. A callback can be provided that repo
 				}
 			} else {
 				console.log('Request popup did not pop up. May appear on future positive events.');
-			} 
+			}
 		});
 	}
 
@@ -47,7 +50,7 @@ If enough positive events have occurred (defined by the `timingFunction`) then a
 
 ## Configuration
 
-All configuration occurs on the construction of a new RatingRequestor. 
+All configuration occurs on the construction of a new RatingRequestor.
 
 ````javascript
     let myRR = new RatingRequestor(appStoreId, [ options ]);
