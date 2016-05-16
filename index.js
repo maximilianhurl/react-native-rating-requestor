@@ -47,7 +47,7 @@ export default class RatingRequestor {
 	 */
 	constructor(options) {
 		// Check for required options
-		if (!appStoreId) {
+		if (!options.appStoreId) {
 			throw 'You must specify your app\'s store ID on construction to use the Rating Requestor.';
 		}
 
